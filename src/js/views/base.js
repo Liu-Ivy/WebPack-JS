@@ -1,15 +1,16 @@
 export const elements = {
   searchForm: document.querySelector(".search"),
   searchInput: document.querySelector(".search__field"),
-  searchRes: document.querySelector(".result"),
+  searchRes: document.querySelector(".results"),
   searchResList: document.querySelector(".results__list"),
 };
 
 export const elementStrings = {
-  loader: "loader",
+  loader: "loader", //give the class name
 };
 
 export const renderLoader = (parent) => {
+  //parent is the results class
   const loader = `
       <div class="${elementStrings.loader}">
           <svg>
