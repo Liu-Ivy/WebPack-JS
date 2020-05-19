@@ -17,6 +17,7 @@ export default class Recipe {
       this.ingredients = res.data.recipe.ingredients;
     } catch (error) {
       console.log(error);
+      alert("Something went wrong !");
     }
   }
 
@@ -25,5 +26,9 @@ export default class Recipe {
     const numIng = this.ingredients.length;
     const periods = Math.ceil(numIng / 3);
     this.time = periods * 15;
+  }
+
+  calcServings() {
+    this.servings = 4;
   }
 }

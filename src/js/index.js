@@ -9,6 +9,10 @@ import { elements, renderLoader, clearLoader } from "./views/base";
  * - Shopping list object
  * - Like recipes
  */
+
+/**
+ * INPUT CONTROLLER
+ */
 const state = {};
 
 const controlSearch = async () => {
@@ -53,6 +57,39 @@ elements.searchResPages.addEventListener("click", (e) => {
   }
 });
 
-const r = new Recipe(46956);
-r.getRecipe();
-console.log(r);
+/**
+ * RECIPE CONTROLLER
+ */
+
+const controlRecipe = async () => {
+  // Get ID from url
+  const id = window.location.hash.replace("#", "");
+  console.log(id);
+
+  if (id) {
+    //Prepare UI for changes
+
+    //Greate new recipe object
+    state.recipe = new Recipe(id);
+
+    //Get recipe data
+    try {
+      await state.recipe.getRecipe();
+
+      //Calculate servings and time
+      state.recipe.calcTime();
+      state.recipe.calcServings();
+      //Render recipe
+
+      console.log(state.recipe);
+    } catch (error) {
+      alert("Error processing recipe!");
+    }
+  }
+};
+
+// window.addEventListener("hashchange", controlRecipe);
+// window.addEventListener("load", controlRecipe);
+["hashchange", "load"].forEach((event) =>
+  window.addEventListener(event, controlRecipe)
+);
