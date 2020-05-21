@@ -1,6 +1,7 @@
 import Search from "./models/Search";
 import Recipe from "./models/Recipe";
 import * as searchView from "./views/searchView";
+import * as recipeView from "./views/recipeView";
 import { elements, renderLoader, clearLoader } from "./views/base";
 
 /** Global state for the app
@@ -17,9 +18,7 @@ const state = {};
 
 const controlSearch = async () => {
   //1)get query from view
-  //const query = searchView.getInput();
-  //testing
-  const query = "chicken";
+  const query = searchView.getInput();
 
   if (query) {
     // 2) New search object and add to state
@@ -49,12 +48,6 @@ elements.searchForm.addEventListener("submit", (e) => {
   controlSearch();
 });
 
-//Testing
-window.addEventListener("load", (e) => {
-  e.preventDefault();
-  controlSearch();
-});
-
 elements.searchResPages.addEventListener("click", (e) => {
   const btn = e.target.closest(".btn-inline");
   if (btn) {
@@ -80,12 +73,10 @@ const controlRecipe = async () => {
     //Greate new recipe object
     state.recipe = new Recipe(id);
 
-    //TESTING
-    window.r = state.recipe;
-
     //Get recipe data
     try {
       await state.recipe.getRecipe();
+      state.recipe.parseIngredients();
 
       //Calculate servings and time
       state.recipe.calcTime();
