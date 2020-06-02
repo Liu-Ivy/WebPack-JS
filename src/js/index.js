@@ -74,7 +74,7 @@ const controlRecipe = async () => {
     renderLoader(elements.recipe);
 
     //Hightlight selected
-    // searchView.highlightSelected(id);
+    if (state.search) searchView.highlightSelected(id);
     //Greate new recipe object
     state.recipe = new Recipe(id);
 
@@ -101,3 +101,18 @@ const controlRecipe = async () => {
 ["hashchange", "load"].forEach((event) =>
   window.addEventListener(event, controlRecipe)
 );
+
+//Handling recipe button clicks
+elements.recipe.addEventListener("click", (e) => {
+  if (e.target.matches(".btn-decrease, .btn-decrease *")) {
+    //*with any child element
+    if (state.recipe.servings > 1) {
+      state.recipe.updateServings("dec");
+      recipeView.updateServingsIngredients(state.recipe);
+    }
+  } else if (e.target.matches(".btn-increase, .btn-increase *")) {
+    state.recipe.updateServings("inc");
+    recipeView.updateServingsIngredients(state.recipe);
+  }
+  console.log(state.recipe);
+});
