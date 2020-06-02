@@ -15,10 +15,10 @@ export const renderItem = (item) => {
       </button>
   </li>
   `;
-  elements.shopping.insertAdjacentHTML("beforeend", markuup);
+  elements.shopping.insertAdjacentHTML("beforeend", markup);
 };
 
 export const deleteItem = (id) => {
-  const item = document.querySelector(`[data-itemid]="${id}"`);
-  item.parentElement.replaceChild(item);
+  const item = document.querySelector(`[data-itemid="${id}"]`);
+  if (item) item.parentElement.removeChild(item);
 };

@@ -17,6 +17,7 @@ import { elements, renderLoader, clearLoader } from "./views/base";
  * SEARCH CONTROLLER
  */
 const state = {};
+window.state = state;
 
 const controlSearch = async () => {
   //1)get query from view
@@ -114,10 +115,28 @@ const controlList = () => {
 
   //Add each ingredient to the list
   state.recipe.ingredients.forEach((el) => {
-    const item = state.list.addItem(el.count, el.unit, el.ingredients);
+    const item = state.list.addItem(el.count, el.unit, el.ingredient);
     listView.renderItem(item);
   });
 };
+
+//Handle delete and update list item events
+elements.shopping.addEventListener("click", (e) => {
+  const id = e.target.closest(".shopping__item").dataset.itemid;
+
+  //Handle the delete button
+  if (e.target.matches(".shopping__delete, .shopping__delete *")) {
+    //Delete from state
+    state.list.deleteItem(id);
+
+    //Delete from UI
+    listView.deleteItem(id);
+    //Handle update count
+  } else if (e.target.matches(".shopping__count-value")) {
+    const val = parseFloat(e.target.value, 10);
+    state.list.updateCount(id, val);
+  }
+});
 
 //Handling recipe button clicks
 elements.recipe.addEventListener("click", (e) => {
